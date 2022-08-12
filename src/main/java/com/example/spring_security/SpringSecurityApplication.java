@@ -11,22 +11,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @SpringBootApplication(scanBasePackages = {
         "com.example.spring_security.basic",
 })
-public class SpringSecurityApplication  implements CommandLineRunner{
+public class SpringSecurityApplication  {
+    /*@Autowired
+    UserRepository userRepository;implements CommandLineRunner
     @Autowired
-    UserRepository userRepository;
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder;*/
 
     public static void main(String[] args) {
         SpringApplication.run(SpringSecurityApplication.class, args);
     }
 
-    @Override
+    /*@Override
     public void run(String... args) throws Exception {
         User user = new User();
         user.setUsername("toan90");
         user.setPassword(passwordEncoder.encode("12345"));
         userRepository.save(user);
         System.out.println(user);
-    }
+    }*/
 }

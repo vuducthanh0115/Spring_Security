@@ -14,10 +14,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-
+@Transactional
 @Service
 public class UserService implements UserDetailsService {
     @Autowired
@@ -35,7 +36,7 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new CustomUserDetails(user);
+        return user;
     }
 
     public List<User> getAll() {
@@ -65,6 +66,6 @@ public class UserService implements UserDetailsService {
 
     public UserDetails loadUserById(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
-        return new CustomUserDetails(user);
+        return user;
     }
 }

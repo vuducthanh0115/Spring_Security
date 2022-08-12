@@ -1,6 +1,4 @@
 package com.example.spring_security.basic.config;
-
-import com.example.spring_security.basic.entity.User;
 import com.example.spring_security.basic.jwt.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +7,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -59,7 +56,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SercurityConfig {
-    User user;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -85,12 +81,12 @@ public class SercurityConfig {
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/login/**").permitAll()
-                .antMatchers("/get-all/**").hasRole("USER")
-                .antMatchers("/get-by-id/**").hasRole("USER")
-                .antMatchers("/delete/**").hasRole("USER")
-                .antMatchers("/update/**").hasRole("USER")
-                .antMatchers("/add/**").permitAll()
-                .antMatchers("/random/**").hasRole("USER")
+                .antMatchers("/get-all/**").permitAll()
+                .antMatchers("/get-by-id/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                .antMatchers("/delete/**").hasAnyAuthority("ROLE_USER")
+                .antMatchers("/update/**").hasAnyAuthority("ROLE_USER")
+                .antMatchers("/add/**").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/random/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();

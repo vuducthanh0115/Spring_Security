@@ -1,15 +1,17 @@
 package com.example.spring_security.basic.service.impl;
 
+import com.example.spring_security.basic.entity.User;
 import com.example.spring_security.basic.jwt.JwtTokenProvider;
 import com.example.spring_security.basic.payload.LoginRequest;
 import com.example.spring_security.basic.payload.LoginResponse;
-import com.example.spring_security.basic.service.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpSession;
 
 @Service
 public class UserServiceImpl {
@@ -30,7 +32,7 @@ public class UserServiceImpl {
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
+        String jwt = tokenProvider.generateToken((User) authentication.getPrincipal());
         return new LoginResponse(jwt);
     }
 }
